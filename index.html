@@ -787,26 +787,50 @@
         <div class="heart-bg">❤️</div>
         
         
-        <h2 class="valentine-title">A Special Message for You 💌</h2>
-        
-        <div class="message-container">
-            <p class="romantic-text">
-                Happy Valentine’s Day, <span class="highlight-name">Niya</span>! 
-                You’re my first girlfriend and my absolute favorite person. 
-                Thank you for being so amazing and for teaching me what love really feels like. 
-                <br><br>
-                <span class="love-you">I love you more than words can say!</span> ❤️
-            </p>
-        </div>
-
-       <div class="photo-display-area">
-    <div class="polaroid p1">
-        <img src="photo1.jpeg" alt="Niya">
-        <div class="caption">My World 🌎</div>
-    </div>
+        <div class="confession-wrapper">
+    <h2 class="valentine-title animated-title">A Special Message for You 💌</h2>
     
-    <div class="animation-box">
-        <div class="pulse-heart">💖</div>
+    <div class="message-container glass-effect">
+        <div class="romantic-text">
+            <p class="fade-in">Happy Valentine’s Day, <span class="highlight-name">Niya</span>!</p>
+            
+            <p class="fade-in-delayed">You’re my first girlfriend and my absolute favorite person. 
+            Thank you for being so amazing and for teaching me what love really feels like.</p>
+            
+            <div class="message-body fade-in-v-delayed">
+                <p>Words cannot fully express what you mean to me, but I'll try. From the moment 
+                we met, my life changed in the most beautiful way. You are my sunshine on cloudy 
+                days, my strength when I feel weak, and my reason to smile every single day.</p>
+                
+                <p>Every laugh we share, every conversation we have, every moment spent with you 
+                is a treasure I hold close to my heart. You've shown me what true love feels 
+                like, and I promise to cherish you always.</p>
+                
+                <p>Thank you for being you, for accepting me, and for making my world infinitely 
+                better just by being in it.</p>
+            </div>
+
+            <div class="signature-area fade-in-final">
+                <p>Forever yours,</p>
+                <strong class="signature-name">Mr. Jones ❤️</strong>
+            </div>
+            
+            <div class="love-you-wrapper">
+                <span class="love-you-animated">I love you more than words can say! ❤️</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="photo-display-area">
+        <div class="polaroid-frame p1">
+            <div class="shimmer"></div>
+            <img src="photo1.jpeg" alt="Niya">
+            <div class="caption">My World 🌎</div>
+        </div>
+        
+        <div class="animation-box">
+            <div class="pulse-heart">💖</div>
+        </div>
     </div>
 </div>
 
@@ -814,6 +838,99 @@
 </div>
 
 <style>
+
+    /* --- Desktop & Base Styles --- */
+.confession-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 100%;
+    text-align: left;
+}
+
+.photo-display-area {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.polaroid-frame {
+    background: white;
+    padding: 10px 10px 30px 10px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    transform: rotate(-5deg);
+    width: 180px; /* Base width for desktop */
+    border-radius: 2px;
+}
+
+.polaroid-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Mobile Specific Fixes --- */
+@media (max-width: 600px) {
+    .animated-title {
+        font-size: 1.6em; /* Smaller title so it doesn't wrap weirdly */
+    }
+
+    .glass-effect {
+        padding: 20px;
+        font-size: 0.95em; /* Slightly smaller text for better fitting */
+    }
+
+    .photo-display-area {
+        height: 220px; /* Reduced height on mobile */
+        margin-top: 10px;
+    }
+
+    .polaroid-frame {
+        width: 140px; /* Smaller photo for mobile screens */
+        padding: 8px 8px 25px 8px;
+    }
+
+    .pulse-heart {
+        font-size: 2.5rem;
+    }
+}
+
+/* --- Animations --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in { animation: fadeInUp 1s forwards; }
+.fade-in-delayed { animation: fadeInUp 1s forwards 0.5s; opacity: 0; }
+.fade-in-v-delayed { animation: fadeInUp 1s forwards 1s; opacity: 0; }
+.fade-in-final { animation: fadeInUp 1s forwards 1.5s; opacity: 0; }
+
+.shimmer {
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    10% { left: 125%; }
+    100% { left: 125%; }
+}
     .romantic-card {
         background: linear-gradient(135deg, #fff5f7 0%, #ffebee 100%);
         padding: 30px;
