@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        .hearts-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            top: 0;
+            left: 0;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 30px;
+            animation: floatUp 6s infinite ease-in;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Music Control */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        .music-control span {
+            font-size: 1.5em;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #e91e63;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-heart {
+            font-size: 80px;
+            animation: heartbeat 1.5s infinite;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.15); }
+        }
+
+        .message {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.6);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #a8a8a8 0%, #7f7f7f 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(127, 127, 127, 0.4);
+            position: relative;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: #333;
+            padding: 12px 30px;
+            font-size: 1em;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(250, 112, 154, 0.4);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(250, 112, 154, 0.6);
+        }
+
+        .response-message {
+            margin-top: 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e91e63;
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .love-letter {
+            font-style: italic;
+            color: #666;
+            margin-top: 20px;
+            font-size: 0.95em;
+            padding: 15px;
+            background: rgba(255, 192, 203, 0.2);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .section-hidden {
+            display: none;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* Valentine's Day Countdown */
+        .valentine-countdown {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .valentine-countdown h2 {
+            color: #e91e63;
+            margin-bottom: 15px;
+        }
+
+        .valentine-timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            min-width: 80px;
+        }
+
+        .time-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e91e63;
+        }
+
+        .time-label {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Virtual Gifts */
+        .gifts-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gift-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .gift-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .gift-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .gift-opened {
+            animation: giftOpen 0.5s ease;
+        }
+
+        @keyframes giftOpen {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(10deg); }
+        }
+
+        /* Spin the Wheel */
+        .wheel-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 10px solid #fff;
+            position: relative;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+            background: conic-gradient(
+                from 0deg,
+                #ff6b6b 0deg 60deg,
+                #f06595 60deg 120deg,
+                #cc5de8 120deg 180deg,
+                #845ef7 180deg 240deg,
+                #5c7cfa 240deg 300deg,
+                #339af0 300deg 360deg
+            );
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3em;
+            z-index: 10;
+        }
+
+        .spin-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        .spin-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .wheel-result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #e91e63;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        /* Love Quiz */
+        .quiz-section {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .quiz-question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            border-color: #e91e63;
+            transform: translateX(5px);
+        }
+
+        .quiz-result {
+            margin-top: 20px;
+            font-size: 1.1em;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Memory Timeline */
+        .timeline-section {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #e91e63;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            width: 45%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: slideInLeft 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .timeline-item:nth-child(odd) {
+            margin-left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 55%;
+            animation: slideInRight 0.5s ease forwards;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .timeline-date {
+            color: #e91e63;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Video Message */
+        .video-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-container {
+            margin-top: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-container video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Voice Message */
+        .voice-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            padding: 25px;
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .audio-player {
+            margin-top: 20px;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            border-radius: 50px;
+        }
+
+        /* Fireworks */
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Photo Gallery */
+        .gallery-section {
+            margin-top: 30px;
+        }
+
+        .gallery-title {
+            font-size: 1.8em;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            aspect-ratio: 1;
+            background: #f0f0f0;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        
+        /* Simple Love Letter Card */
+        .simple-letter-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            line-height: 1.9;
+            color: #333;
+            font-size: 1.1em;
+            animation: fadeInScale 0.6s ease-out;
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .letter-heart {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+@media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            .main-heart { font-size: 60px; }
+            .buttons { flex-direction: column; }
+            .container { padding: 40px 25px; }
+            .valentine-timer { flex-wrap: wrap; }
+            .gifts-grid { grid-template-columns: repeat(2, 1fr); }
+            .wheel-container { width: 250px; height: 250px; }
+            .timeline::before { left: 20px; }
+            .timeline-item { width: calc(100% - 40px); margin-left: 40px !important; }
+            .timeline-item:nth-child(even) { margin-left: 40px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="heartsBackground"></div>
+    
+    <!-- Music Control -->
+    <div class="music-control" id="musicControl" title="Play/Pause Music">
+        <span id="musicIcon">🎵</span>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="love-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Sound Effects -->
+    <audio id="clickSound" src="click.mp3"></audio>
+    <audio id="heartSound" src="heart.mp3"></audio>
+    <audio id="celebrationSound" src="celebration.mp3"></audio>
+    
+    <div class="container">
+        <h1>Will You Be My Valentine?</h1>
+        <div class="main-heart">💖</div>
+        <p class="message">
+            I've been waiting for the perfect moment to ask you this...
+            <br>Would you make me the happiest person and be my Valentine?
+        </p>
+        
+        <div class="buttons">
+            <button class="btn btn-yes" id="yesBtn">Yes! 💕</button>
+            <button class="btn btn-no" id="noBtn">No</button>
+        </div>
+        
+        <div class="response-message" id="responseMessage"></div>
+        <div class="love-letter" id="loveLetter"></div>
+        
+        <!-- Valentine's Day Countdown -->
+        <div class="section-hidden" id="valentineCountdown">
+            <div class="valentine-countdown">
+                <h2>Countdown to Valentine's Day 💝</h2>
+                <div class="valentine-timer">
+                    <div class="time-box">
+                        <div class="time-value" id="vDays">0</div>
+                        <div class="time-label">Days</div>
+                    </div>
+                    <div class="time-box">
+                        <div class="time-value" id="vHours">0</div>
+                        <div class="time-label">Hours</div>
+                    </div>
+                    <div class="time-box">
+                        <div class="time-value" id="vMinutes">0</div>
+                        <div class="time-label">Minutes</div>
+                    </div>
+                    <div class="time-box">
+                        <div class="time-value" id="vSeconds">0</div>
+                        <div class="time-label">Seconds</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" id="showGiftsBtn">
+                Unwrap Your Virtual Gifts! 🎁
+            </button>
+        </div>
+
+        <!-- Virtual Gifts -->
+        <div class="section-hidden" id="giftsSection">
+            <div class="gifts-section">
+                <h2 style="color: #e91e63; margin-bottom: 15px;">Virtual Gifts for You 🎁</h2>
+                <p>Click each gift to unwrap it!</p>
+                <div class="gifts-grid">
+                    <div class="gift-box" data-gift="0">
+                        <div class="gift-icon">🎁</div>
+                        <div class="gift-name">Click me!</div>
+                    </div>
+                    <div class="gift-box" data-gift="1">
+                        <div class="gift-icon">🎁</div>
+                        <div class="gift-name">Click me!</div>
+                    </div>
+                    <div class="gift-box" data-gift="2">
+                        <div class="gift-icon">🎁</div>
+                        <div class="gift-name">Click me!</div>
+                    </div>
+                    <div class="gift-box" data-gift="3">
+                        <div class="gift-icon">🎁</div>
+                        <div class="gift-name">Click me!</div>
+                    </div>
+                    <div class="gift-box" data-gift="4">
+                        <div class="gift-icon">🎁</div>
+                        <div class="gift-name">Click me!</div>
+                    </div>
+                    <div class="gift-box" data-gift="5">
+                        <div class="gift-icon">🎁</div>
+                        <div class="gift-name">Click me!</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" id="showWheelBtn">
+                Spin the Love Wheel! 🎡
+            </button>
+        </div>
+
+        <!-- Spin the Wheel -->
+        <div class="section-hidden" id="wheelSection">
+            <div class="wheel-section">
+                <h2 style="color: #e91e63; margin-bottom: 15px;">Spin the Wheel of Love! 💝</h2>
+                <p>See what romantic surprise awaits you!</p>
+                <div class="wheel-container">
+                    <div class="wheel-pointer">🔻</div>
+                    <div class="wheel" id="wheel"></div>
+                </div>
+                <button class="spin-btn" id="spinBtn">SPIN!</button>
+                <div class="wheel-result" id="wheelResult"></div>
+            </div>
+            <button class="btn btn-secondary" id="showQuizBtn">
+                Take Our Love Quiz! ❤️
+            </button>
+        </div>
+
+        <!-- Love Quiz -->
+        <div class="section-hidden" id="quizSection">
+            <div class="quiz-section">
+                <h2 style="color: #e91e63; margin-bottom: 20px;">How Well Do You Know Us? 💕</h2>
+                <div id="quizContainer"></div>
+            </div>
+            <button class="btn btn-secondary" id="showTimelineBtn" style="display: none;">
+                See Our Beautiful Timeline! 📅
+            </button>
+        </div>
+
+        <!-- Memory Timeline -->
+        <div class="section-hidden" id="timelineSection">
+            <div class="timeline-section">
+                <h2 style="color: #e91e63; text-align: center; margin-bottom: 20px;">Our Love Story Timeline 💑</h2>
+                <div class="timeline" id="timeline"></div>
+            </div>
+            <button class="btn btn-secondary" id="showVoiceBtn">
+               My Valentine’s Confession 💌
+            </button>
+        </div>
+
+        <!-- Voice Message -->
+        <div class="section-hidden" id="voiceSection">
+    <div class="voice-section romantic-card">
+        <div class="heart-bg">❤️</div>
+        
+        
+        <h2 class="valentine-title">A Special Message for You 💌</h2>
+        
+        <div class="message-container">
+            <p class="romantic-text">
+                Happy Valentine’s Day, <span class="highlight-name">Niya</span>! 
+                You’re my first girlfriend and my absolute favorite person. 
+                Thank you for being so amazing and for teaching me what love really feels like. 
+                <br><br>
+                <span class="love-you">I love you more than words can say!</span> ❤️
+            </p>
+        </div>
+
+       <div class="photo-display-area">
+    <div class="polaroid p1">
+        <img src="photo1.jpeg" alt="Niya">
+        <div class="caption">My World 🌎</div>
+    </div>
+    
+    <div class="animation-box">
+        <div class="pulse-heart">💖</div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<style>
+    .romantic-card {
+        background: linear-gradient(135deg, #fff5f7 0%, #ffebee 100%);
+        padding: 30px;
+        border-radius: 20px;
+        border: 2px solid #ffc107;
+        box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .valentine-title {
+        color: #e91e63;
+        font-family: 'Georgia', serif;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .message-container {
+        background: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        border-radius: 15px;
+        line-height: 1.6;
+    }
+
+    .romantic-text {
+        color: #4a4a4a;
+        font-size: 1.2rem;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .highlight-name {
+        color: #d81b60;
+        font-weight: bold;
+        font-size: 1.4rem;
+        border-bottom: 2px dashed #e91e63;
+    }
+
+    .love-you {
+        display: block;
+        font-weight: bold;
+        color: #e91e63;
+        font-size: 1.3rem;
+        animation: heartbeat 1.5s infinite;
+    }
+
+    .pulse-heart {
+        font-size: 3rem;
+        margin-top: 20px;
+        display: inline-block;
+        animation: heartbeat 1.2s infinite;
+    }
+
+    /* Animations */
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+        100% { transform: scale(1); }
+    }
+
+    .heart-bg {
+        position: absolute;
+        top: -10px;
+        right: 10px;
+        font-size: 2rem;
+        opacity: 0.2;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+</style>
+
+        <!-- Video Message -->
+        <div class="section-hidden" id="videoSection">
+            <div class="video-section">
+                <h2 style="color: #e91e63; margin-bottom: 15px;">My Heart Speaks to You 💖</h2>
+                <p>After Listening To It, Kindly Pause It And Move To The Next....❤️</p>
+                <div class="video-container">
+                    <video controls>
+                        <source src="video-message.mp4" type="video/mp4">
+                        Your browser does not support video playback.
+                    </video>
+                </div>
+            </div>
+            <button class="btn btn-secondary" id="showGalleryBtn">
+                See Our Beautiful Memories Together 📸
+            </button>
+        </div>
+
+        <!-- Photo Gallery -->
+        <div class="section-hidden" id="gallerySection">
+            <h2 class="gallery-title">Our Journey Together 💑</h2>
+            <div class="photo-gallery" id="photoGallery"></div>
+        
+
+        <!-- Final Love Letter Section -->
+        <div class="section-hidden" id="finalLetterSection">
+            <button class="btn btn-secondary" id="openFinalLetterBtn" style="margin-top: 30px; font-size: 1.2em;">
+                Open My Love Letter 💌
+            </button>
+
+            <div id="finalLetterContent" style="display: none; margin-top: 30px;">
+                <div class="simple-letter-card">
+                    <div class="letter-heart">💌</div>
+                    <p style="margin-bottom: 20px; font-weight: bold; font-size: 1.3em;">My Dearest Love Niya,</p>
+
+                    <p style="margin-bottom: 20px;">
+                        Words cannot fully express what you mean to me, but I'll try. From the moment 
+                        we met, my life changed in the most beautiful way. You are my sunshine on cloudy 
+                        days, my strength when I feel weak, and my reason to smile every single day.
+                    </p>
+
+                    <p style="margin-bottom: 20px;">
+                        Every laugh we share, every conversation we have, every moment spent with you 
+                        is a treasure I hold close to my heart. You've shown me what true love feels 
+                        like, and I promise to cherish you always.
+                    </p>
+
+                    <p style="margin-bottom: 20px;">
+                        Thank you for being you, for accepting me, and for making my world infinitely 
+                        better just by being in it.
+                    </p>
+
+                    <p style="margin-top: 30px; text-align: center;">
+                        Forever yours,<br>
+                        <strong style="color: #e91e63; font-size: 1.3em;">Mr.Jones ❤️</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // 🎵 MUSIC & SOUND SETUP
+        // ============================================
+        // Add your love song: Upload "love-song.mp3" to your GitHub repo
+        // Add sound effects: "click.mp3", "heart.mp3", "celebration.mp3"
+        
+        // ============================================
+        // 📸 PHOTO LINKS
+        // ============================================
+        const photoLinks = [
+            'photo1.jpg',
+            'photo2.jpg',
+            'photo3.jpg',
+            'photo4.jpg'
+        ];
+
+        // ============================================
+        // 🎁 VIRTUAL GIFTS (Customize these!)
+        // ============================================
+        const virtualGifts = [
+            { icon: '💐', name: 'Roses', message: 'A bouquet of virtual roses for my beautiful valentine!' },
+            { icon: '🍫', name: 'Chocolates', message: 'Sweet chocolates for the sweetest person I know!' },
+            { icon: '❤️', name: 'My Love', message: 'My love to you is forever and always!' },
+            { icon: '🧸', name: 'Teddy Bear', message: 'A cuddly teddy to hug when I\'m not there!' },
+            { icon: '💌', name: 'Love Letter', message: 'Endless love letters written just for you!' },
+            { icon: '⭐', name: 'Star', message: 'You\'re my shining star in the night sky!' }
+        ];
+
+        // ============================================
+        // 🎡 SPIN WHEEL PRIZES
+        // ============================================
+        const wheelPrizes = [
+            'A romantic dinner date! 🍝',
+            'Breakfast in bed! 🥞',
+            'Movie night of your choice! 🎬',
+            'Full body massage! 💆',
+            'Shopping spree together! 🛍️',
+            'Weekend getaway! ✈️'
+        ];
+
+        // ============================================
+        // ❤️ LOVE QUIZ (Customize questions!)
+        // ============================================
+        const quizQuestions = [
+            {
+                question: 'What was our first date?',
+                options: ['In The room', 'Coffee shop', 'Park', 'Foxtrap'],
+                correct: 0,
+                response: 'Yes! I remember that day like it was yesterday! ☕💕'
+            },
+            {
+                question: 'What\'s my favorite thing about you?',
+                options: ['Your smile', 'Your laugh', 'Your kindness', 'Everything!'],
+                correct: 3,
+                response: 'Exactly! I love EVERYTHING about you! 😍'
+            },
+            {
+                question: 'Where do I see us in 5 years?',
+                options: ['Together and happy', 'Traveling the world', 'Building our dream life', 'All of the above'],
+                correct: 3,
+                response: 'You know me so well! All of that and more! 🌟'
+            }
+        ];
+
+        // ============================================
+        // 📅 MEMORY TIMELINE (Add your special moments!)
+        // ============================================
+        const timelineEvents = [
+            { date: 'June 2023', event: 'The day we first met', icon: '✨' },
+            { date: 'February 2024', event: 'Our First Meet Up', icon: '💕' },
+            { date: 'February 2024', event: 'First "I love you From You"', icon: '❤️' },
+            { date: 'January 2024', event: 'Our first birthday celebration', icon: '✈️' },
+            { date: '14, February2024', event: 'When You Became My GirlFriend !', icon: '🎉' },
+            { date: ' Junne 2025', event: 'The last time we see each other f2f!', icon: '🎉' },
+            { date: 'February 2026', event: 'This Valentine\'s Day', icon: '💝' }
+        ];
+
+        // ============================================
+        // MUSIC CONTROL
+        // ============================================
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicIcon = document.getElementById('musicIcon');
+        let musicPlaying = false;
+
+        musicControl.addEventListener('click', function() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                musicIcon.textContent = '🎵';
+                musicPlaying = false;
+            } else {
+                bgMusic.play().catch(e => console.log('Music play prevented'));
+                musicIcon.textContent = '🔊';
+                musicPlaying = true;
+            }
+        });
+
+        // Auto-play attempt (may be blocked by browser)
+        document.addEventListener('click', function() {
+            if (!musicPlaying) {
+                bgMusic.play().catch(e => console.log('Auto-play prevented'));
+                musicIcon.textContent = '🔊';
+                musicPlaying = true;
+            }
+        }, { once: true });
+
+
+        // ============================================
+        // SMART MUSIC CONTROL - AUTO PAUSE FOR VOICE/VIDEO
+        // ============================================
+
+        // Wait for the sections to be available
+        setTimeout(() => {
+            // Get voice message audio element
+            const voiceAudio = document.querySelector('#voiceSection audio');
+            if (voiceAudio) {
+                // Pause background music when voice message starts
+                voiceAudio.addEventListener('play', function() {
+                    if (musicPlaying) {
+                        bgMusic.pause();
+                        musicIcon.textContent = '🎵';
+                        console.log('Background music paused for voice message');
+                    }
+                });
+
+                // Resume background music when voice message is paused
+                voiceAudio.addEventListener('pause', function() {
+                    if (!voiceAudio.ended && musicPlaying && bgMusic.paused) {
+                        setTimeout(() => {
+                            if (voiceAudio.paused && !voiceAudio.ended) {
+                                bgMusic.play().catch(e => console.log('Music resume prevented'));
+                                musicIcon.textContent = '🔊';
+                                console.log('Background music resumed after voice pause');
+                            }
+                        }, 500);
+                    }
+                });
+
+                // Resume background music when voice message ends
+                voiceAudio.addEventListener('ended', function() {
+                    if (musicPlaying) {
+                        bgMusic.play().catch(e => console.log('Music resume prevented'));
+                        musicIcon.textContent = '🔊';
+                        console.log('Background music resumed after voice ended');
+                    }
+                });
+            }
+
+            // Get video message element
+            const videoElement = document.querySelector('#videoSection video');
+            if (videoElement) {
+                // Pause background music when video starts
+                videoElement.addEventListener('play', function() {
+                    if (musicPlaying) {
+                        bgMusic.pause();
+                        musicIcon.textContent = '🎵';
+                        console.log('Background music paused for video');
+                    }
+                });
+
+                // Resume background music when video is paused
+                videoElement.addEventListener('pause', function() {
+                    if (!videoElement.ended && musicPlaying && bgMusic.paused) {
+                        setTimeout(() => {
+                            if (videoElement.paused && !videoElement.ended) {
+                                bgMusic.play().catch(e => console.log('Music resume prevented'));
+                                musicIcon.textContent = '🔊';
+                                console.log('Background music resumed after video pause');
+                            }
+                        }, 500);
+                    }
+                });
+
+                // Resume background music when video ends
+                videoElement.addEventListener('ended', function() {
+                    if (musicPlaying) {
+                        bgMusic.play().catch(e => console.log('Music resume prevented'));
+                        musicIcon.textContent = '🔊';
+                        console.log('Background music resumed after video ended');
+                    }
+                });
+            }
+        }, 2000); // Wait 2 seconds for sections to be loaded
+
+
+
+        // ============================================
+        // SOUND EFFECTS
+        // ============================================
+        function playSound(soundId) {
+            const sound = document.getElementById(soundId);
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play().catch(e => console.log('Sound play prevented'));
+            }
+        }
+
+        // ============================================
+        // FLOATING HEARTS
+        // ============================================
+        function createFloatingHeart() {
+            const heartsContainer = document.getElementById('heartsBackground');
+            const heart = document.createElement('div');
+            heart.className = 'heart-float';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
+        }
+        setInterval(createFloatingHeart, 800);
+
+        // ============================================
+        // VALENTINE'S DAY COUNTDOWN
+        // ============================================
+        function updateValentineCountdown() {
+            const valentine = new Date('2026-02-14T00:00:00');
+            const now = new Date();
+            const diff = valentine - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('vDays').textContent = days;
+                document.getElementById('vHours').textContent = hours;
+                document.getElementById('vMinutes').textContent = minutes;
+                document.getElementById('vSeconds').textContent = seconds;
+            } else {
+                document.getElementById('vDays').textContent = '0';
+                document.getElementById('vHours').textContent = '0';
+                document.getElementById('vMinutes').textContent = '0';
+                document.getElementById('vSeconds').textContent = '0';
+            }
+        }
+        setInterval(updateValentineCountdown, 1000);
+
+        // ============================================
+        // FIREWORKS ANIMATION
+        // ============================================
+        function createFireworks() {
+            const colors = ['#ff0000', '#ff69b4', '#ff1493', '#ffd700', '#ff4500', '#ff6347'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight * 0.5;
+                    
+                    for (let j = 0; j < 30; j++) {
+                        const firework = document.createElement('div');
+                        firework.className = 'firework';
+                        firework.style.left = x + 'px';
+                        firework.style.top = y + 'px';
+                        firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        const angle = (Math.PI * 2 * j) / 30;
+                        const velocity = 2 + Math.random() * 2;
+                        const vx = Math.cos(angle) * velocity;
+                        const vy = Math.sin(angle) * velocity;
+                        
+                        document.body.appendChild(firework);
+                        
+                        let posX = x;
+                        let posY = y;
+                        let life = 100;
+                        
+                        const animate = setInterval(() => {
+                            life -= 2;
+                            posX += vx * 2;
+                            posY += vy * 2;
+                            
+                            firework.style.left = posX + 'px';
+                            firework.style.top = posY + 'px';
+                            firework.style.opacity = life / 100;
+                            
+                            if (life <= 0) {
+                                clearInterval(animate);
+                                firework.remove();
+                            }
+                        }, 20);
+                    }
+                }, i * 100);
+            }
+        }
+
+        // ============================================
+        // VIRTUAL GIFTS
+        // ============================================
+        document.querySelectorAll('.gift-box').forEach((box, index) => {
+            box.addEventListener('click', function() {
+                if (!this.classList.contains('opened')) {
+                    playSound('heartSound');
+                    this.classList.add('gift-opened', 'opened');
+                    const gift = virtualGifts[index];
+                    this.querySelector('.gift-icon').textContent = gift.icon;
+                    this.querySelector('.gift-name').textContent = gift.name;
+                    
+                    setTimeout(() => {
+                        alert(gift.message);
+                    }, 500);
+                }
+            });
+        });
+
+        // ============================================
+        // SPIN THE WHEEL
+        // ============================================
+        let spinning = false;
+        document.getElementById('spinBtn').addEventListener('click', function() {
+            if (!spinning) {
+                spinning = true;
+                playSound('clickSound');
+                const wheel = document.getElementById('wheel');
+                const randomSpin = 1800 + Math.random() * 1800;
+                wheel.style.transform = `rotate(${randomSpin}deg)`;
+                
+                setTimeout(() => {
+                    const prizeIndex = Math.floor(Math.random() * wheelPrizes.length);
+                    document.getElementById('wheelResult').textContent = '🎉 ' + wheelPrizes[prizeIndex];
+                    playSound('celebrationSound');
+                    spinning = false;
+                }, 4000);
+            }
+        });
+
+        // ============================================
+        // LOVE QUIZ
+        // ============================================
+        let currentQuestion = 0;
+        function loadQuiz() {
+            const container = document.getElementById('quizContainer');
+            if (currentQuestion < quizQuestions.length) {
+                const q = quizQuestions[currentQuestion];
+                container.innerHTML = `
+                    <div class="quiz-question">${q.question}</div>
+                    <div class="quiz-options">
+                        ${q.options.map((opt, i) => `
+                            <div class="quiz-option" onclick="checkAnswer(${i})">${opt}</div>
+                        `).join('')}
+                    </div>
+                    <div class="quiz-result" id="quizResult"></div>
+                `;
+            } else {
+                container.innerHTML = '<h3 style="color: #e91e63;">🎉 You know us so well! 🎉</h3>';
+                document.getElementById('showTimelineBtn').style.display = 'block';
+            }
+        }
+
+        function checkAnswer(selected) {
+            playSound('clickSound');
+            const q = quizQuestions[currentQuestion];
+            const resultDiv = document.getElementById('quizResult');
+            
+            if (selected === q.correct) {
+                resultDiv.innerHTML = `<p style="color: #51cf66;">✅ ${q.response}</p>`;
+                playSound('heartSound');
+            } else {
+                resultDiv.innerHTML = `<p style="color: #ff6b6b;">❤️ Not quite, but I love you anyway!</p>`;
+            }
+            
+            setTimeout(() => {
+                currentQuestion++;
+                loadQuiz();
+            }, 2000);
+        }
+
+        // ============================================
+        // MEMORY TIMELINE
+        // ============================================
+        function loadTimeline() {
+            const timeline = document.getElementById('timeline');
+            timelineEvents.forEach((event, index) => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.style.animationDelay = (index * 0.3) + 's';
+                item.innerHTML = `
+                    <div class="timeline-date">${event.icon} ${event.date}</div>
+                    <div class="timeline-content">${event.event}</div>
+                `;
+                timeline.appendChild(item);
+            });
+        }
+
+        // ============================================
+        // PHOTO GALLERY
+        // ============================================
+        function loadPhotos() {
+            const gallery = document.getElementById('photoGallery');
+            gallery.innerHTML = '';
+            photoLinks.forEach((link, index) => {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                const img = document.createElement('img');
+                img.src = link;
+                img.alt = `Memory ${index + 1}`;
+                img.onerror = function() {
+                    photoItem.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:3em;">💕</div>`;
+                };
+                photoItem.appendChild(img);
+                gallery.appendChild(photoItem);
+            });
+        }
+
+        // ============================================
+        // CONFETTI
+        // ============================================
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#f06595', '#cc5de8', '#845ef7', '#5c7cfa', '#339af0'];
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = Math.random() * 10 + 5 + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.position = 'fixed';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        // ============================================
+        // YES BUTTON
+        // ============================================
+        document.getElementById('yesBtn').addEventListener('click', function() {
+            playSound('celebrationSound');
+            document.getElementById('responseMessage').innerHTML = '🎉 Yay! I knew you\'d say yes! 🎉';
+            document.getElementById('responseMessage').style.display = 'block';
+            document.getElementById('loveLetter').innerHTML = '✨ You\'ve just made me the happiest person in the world! ✨';
+            document.getElementById('loveLetter').style.display = 'block';
+            document.querySelector('.buttons').style.display = 'none';
+            
+            setTimeout(() => {
+                document.getElementById('valentineCountdown').style.display = 'block';
+                updateValentineCountdown();
+            }, 1500);
+            
+            createFireworks();
+            createConfetti();
+            document.querySelector('.main-heart').innerHTML = '😍';
+        });
+
+        // ============================================
+        // NO BUTTON
+        // ============================================
+        const noBtn = document.getElementById('noBtn');
+        let noClickCount = 0;
+        
+        noBtn.addEventListener('mouseover', function() {
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const maxX = containerRect.width - noBtn.offsetWidth - 40;
+            const maxY = containerRect.height - noBtn.offsetHeight - 40;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        });
+
+        noBtn.addEventListener('click', function() {
+            noClickCount++;
+            playSound('clickSound');
+            const messages = [
+                '😢 Are you sure? Try again!',
+                '🥺 Please? Just one more chance!',
+                '💔 My heart is breaking...',
+                '😭 I won\'t give up!',
+                '🙏 Pretty please?'
+            ];
+            document.getElementById('responseMessage').innerHTML = messages[Math.min(noClickCount - 1, messages.length - 1)];
+            document.getElementById('responseMessage').style.display = 'block';
+            document.getElementById('responseMessage').style.color = '#ff6b6b';
+            
+            const yesBtn = document.getElementById('yesBtn');
+            const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize + 2) + 'px';
+            yesBtn.style.padding = '20px 50px';
+        });
+
+        // ============================================
+        // NAVIGATION BUTTONS
+        // ============================================
+        document.getElementById('showGiftsBtn').addEventListener('click', function() {
+            playSound('clickSound');
+            document.getElementById('valentineCountdown').style.display = 'none';
+            document.getElementById('giftsSection').style.display = 'block';
+        });
+
+        document.getElementById('showWheelBtn').addEventListener('click', function() {
+            playSound('clickSound');
+            document.getElementById('giftsSection').style.display = 'none';
+            document.getElementById('wheelSection').style.display = 'block';
+        });
+
+        document.getElementById('showQuizBtn').addEventListener('click', function() {
+            playSound('clickSound');
+            document.getElementById('wheelSection').style.display = 'none';
+            document.getElementById('quizSection').style.display = 'block';
+            loadQuiz();
+        });
+
+        document.getElementById('showTimelineBtn').addEventListener('click', function() {
+            playSound('clickSound');
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('timelineSection').style.display = 'block';
+            loadTimeline();
+        });
+
+        document.getElementById('showVoiceBtn').addEventListener('click', function() {
+            playSound('clickSound');
+            document.getElementById('timelineSection').style.display = 'none';
+            document.getElementById('voiceSection').style.display = 'block';
+        });
+
+        document.getElementById('showVideoBtn').addEventListener('click', function() {
+            playSound('clickSound');
+            document.getElementById('voiceSection').style.display = 'none';
+            document.getElementById('videoSection').style.display = 'block';
+        });
+
+        document.getElementById('showGalleryBtn').addEventListener('click', function() {
+            playSound('clickSound');
+            document.getElementById('videoSection').style.display = 'none';
+            document.getElementById('gallerySection').style.display = 'block';
+            loadPhotos();
+            setTimeout(() => {
+                const finalSection = document.getElementById('finalLetterSection');
+                if (finalSection) {
+                    finalSection.style.display = 'block';
+                }
+            }, 1000);
+        });
+    
+
+        // ============================================
+        // FINAL LOVE LETTER BUTTON
+        // ============================================
+        const openFinalLetterBtn = document.getElementById('openFinalLetterBtn');
+        const finalLetterContent = document.getElementById('finalLetterContent');
+
+        if (openFinalLetterBtn && finalLetterContent) {
+            openFinalLetterBtn.addEventListener('click', function() {
+                playSound('heartSound');
+                this.style.display = 'none';
+                finalLetterContent.style.display = 'block';
+                createConfetti();
+            });
+        }
+
+    </script>
+</body>
+</html>
